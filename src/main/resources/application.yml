@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: 'jdbc:h2:file:./todo-db'
+    username: 'sa'
+    password: 'pass'
+  jpa.hibernate.ddl-auto: update
+jwt:
+  secret: 'fullstackengineering9z3255CFHMcQfTjfoo09barWnZ123r4u788x1AcDdsGKaNdRgUkXp2iogithubmat3e'
+  validity: 3600
