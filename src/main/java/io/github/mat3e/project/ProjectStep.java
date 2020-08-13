@@ -1,4 +1,4 @@
-package io.github.mat3e.entity;
+package io.github.mat3e.project;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.PersistenceConstructor;
@@ -49,7 +49,7 @@ public class ProjectStep {
         return description;
     }
 
-    public void setDescription(String description) {
+    void setDescription(String description) {
         this.description = description;
     }
 
@@ -57,7 +57,7 @@ public class ProjectStep {
         return daysToProjectDeadline;
     }
 
-    public void setDaysToProjectDeadline(int daysToProjectDeadline) {
+    void setDaysToProjectDeadline(int daysToProjectDeadline) {
         this.daysToProjectDeadline = daysToProjectDeadline;
     }
 
@@ -65,7 +65,7 @@ public class ProjectStep {
         return project;
     }
 
-    public void setProject(Project project) {
+    void setProject(Project project) {
         this.project = project;
     }
 }

@@ -1,8 +1,5 @@
-package io.github.mat3e.controller;
+package io.github.mat3e.auth;
 
-import io.github.mat3e.dto.AuthenticationRequestDto;
-import io.github.mat3e.dto.AuthenticationResponseDto;
-import io.github.mat3e.service.TokenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,8 +1,5 @@
-package io.github.mat3e.controller;
+package io.github.mat3e.task;
 
-import io.github.mat3e.dto.TaskDto;
-import io.github.mat3e.dto.TaskWithChangesDto;
-import io.github.mat3e.service.TaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

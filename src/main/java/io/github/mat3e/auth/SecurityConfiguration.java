@@ -1,7 +1,5 @@
-package io.github.mat3e.configuration;
+package io.github.mat3e.auth;
 
-import io.github.mat3e.filter.AuthenticationFilter;
-import io.github.mat3e.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;

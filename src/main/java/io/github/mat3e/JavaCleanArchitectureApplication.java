@@ -1,10 +1,10 @@
 package io.github.mat3e;
 
-import io.github.mat3e.entity.Project;
-import io.github.mat3e.entity.ProjectStep;
-import io.github.mat3e.entity.Task;
-import io.github.mat3e.repository.ProjectRepository;
-import io.github.mat3e.repository.TaskRepository;
+import io.github.mat3e.project.Project;
+import io.github.mat3e.project.ProjectRepository;
+import io.github.mat3e.project.ProjectStep;
+import io.github.mat3e.task.Task;
+import io.github.mat3e.task.TaskRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationListener;
