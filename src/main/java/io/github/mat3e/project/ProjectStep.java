@@ -15,7 +15,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "project_steps")
-public class ProjectStep {
+class ProjectStep {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
@@ -31,7 +31,7 @@ public class ProjectStep {
     public ProjectStep() {
     }
 
-    public ProjectStep(@NotNull String description, int daysToProjectDeadline, Project project) {
+    ProjectStep(@NotNull String description, int daysToProjectDeadline, Project project) {
         this.description = description;
         this.daysToProjectDeadline = daysToProjectDeadline;
         this.project = project;
