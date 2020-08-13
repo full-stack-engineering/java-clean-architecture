@@ -36,7 +36,7 @@ public class TaskDto {
         return description;
     }
 
-    public void setDescription(String description) {
+    void setDescription(String description) {
         this.description = description;
     }
 
@@ -44,7 +44,7 @@ public class TaskDto {
         return done;
     }
 
-    public void setDone(boolean done) {
+    void setDone(boolean done) {
         this.done = done;
     }
 
@@ -52,7 +52,7 @@ public class TaskDto {
         return deadline;
     }
 
-    public void setDeadline(ZonedDateTime deadline) {
+    void setDeadline(ZonedDateTime deadline) {
         this.deadline = deadline;
     }
 
@@ -60,7 +60,7 @@ public class TaskDto {
         return additionalComment;
     }
 
-    public void setAdditionalComment(String additionalComment) {
+    void setAdditionalComment(String additionalComment) {
         this.additionalComment = additionalComment;
     }
 }

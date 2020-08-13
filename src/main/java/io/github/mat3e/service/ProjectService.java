@@ -24,7 +24,7 @@ public class ProjectService {
     private final ProjectStepRepository projectStepRepository;
     private final TaskRepository taskRepository;
 
-    public ProjectService(ProjectRepository projectRepository, ProjectStepRepository projectStepRepository, TaskRepository taskRepository) {
+    ProjectService(ProjectRepository projectRepository, ProjectStepRepository projectStepRepository, TaskRepository taskRepository) {
         this.projectRepository = projectRepository;
         this.projectStepRepository = projectStepRepository;
         this.taskRepository = taskRepository;

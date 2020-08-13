@@ -13,7 +13,7 @@ public class JwtConfigurationProperties {
         return secret;
     }
 
-    public void setSecret(String secret) {
+    void setSecret(String secret) {
         this.secret = secret;
     }
 
@@ -21,7 +21,7 @@ public class JwtConfigurationProperties {
         return validity;
     }
 
-    public void setValidity(long validity) {
+    void setValidity(long validity) {
         this.validity = validity;
     }
 }

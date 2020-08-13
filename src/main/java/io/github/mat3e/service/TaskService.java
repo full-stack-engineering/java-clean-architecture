@@ -15,7 +15,7 @@ import static java.util.stream.Collectors.toList;
 public class TaskService {
     private final TaskRepository taskRepository;
 
-    public TaskService(TaskRepository taskRepository) {
+    TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 

@@ -25,7 +25,7 @@ public class TaskWithChangesDto {
         return id;
     }
 
-    public void setId(int id) {
+    void setId(int id) {
         this.id = id;
     }
 
@@ -33,7 +33,7 @@ public class TaskWithChangesDto {
         return description;
     }
 
-    public void setDescription(String description) {
+    void setDescription(String description) {
         this.description = description;
     }
 
@@ -41,7 +41,7 @@ public class TaskWithChangesDto {
         return done;
     }
 
-    public void setDone(boolean done) {
+    void setDone(boolean done) {
         this.done = done;
     }
 
@@ -49,7 +49,7 @@ public class TaskWithChangesDto {
         return deadline;
     }
 
-    public void setDeadline(ZonedDateTime deadline) {
+    void setDeadline(ZonedDateTime deadline) {
         this.deadline = deadline;
     }
 
@@ -57,7 +57,7 @@ public class TaskWithChangesDto {
         return changesCount;
     }
 
-    public void setChangesCount(int changesCount) {
+    void setChangesCount(int changesCount) {
         this.changesCount = changesCount;
     }
 }
