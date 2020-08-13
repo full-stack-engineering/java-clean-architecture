@@ -17,20 +17,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/projects")
 class ProjectController {
-    private final ProjectService projectService;
+    private final ProjectFacade projectFacade;
 
-    ProjectController(ProjectService projectService) {
-        this.projectService = projectService;
+    ProjectController(ProjectFacade projectFacade) {
+        this.projectFacade = projectFacade;
     }
 
     @GetMapping
     List<Project> list() {
-        return projectService.list();
+        return projectFacade.list();
     }
 
     @GetMapping("/{id}")
     ResponseEntity<Project> get(@PathVariable int id) {
-        return projectService.get(id)
+        return projectFacade.get(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -41,19 +41,19 @@ class ProjectController {
             throw new IllegalStateException("Id in URL is different than in body: " + id + " and " + toUpdate.getId());
         }
         toUpdate.setId(id);
-        projectService.save(toUpdate);
+        projectFacade.save(toUpdate);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping
     ResponseEntity<Project> create(@RequestBody Project toCreate) {
-        Project result = projectService.save(toCreate);
+        Project result = projectFacade.save(toCreate);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
     @PostMapping("/{id}/tasks")
     List<TaskDto> createTasks(@PathVariable int id, @RequestBody ProjectDeadlineDto deadlineDto) {
-        return projectService.createTasks(id, deadlineDto.getDeadline());
+        return projectFacade.createTasks(id, deadlineDto.getDeadline());
     }
 
     @ExceptionHandler(IllegalStateException.class)

@@ -16,7 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "projects")
-public class Project {
+class Project {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
@@ -48,7 +48,7 @@ public class Project {
         return steps;
     }
 
-    public void addStep(ProjectStep step) {
+    void addStep(ProjectStep step) {
         if (steps.contains(step)) {
             return;
         }
@@ -56,7 +56,7 @@ public class Project {
         step.setProject(this);
     }
 
-    public void removeStep(ProjectStep step) {
+    void removeStep(ProjectStep step) {
         if (!steps.contains(step)) {
             return;
         }

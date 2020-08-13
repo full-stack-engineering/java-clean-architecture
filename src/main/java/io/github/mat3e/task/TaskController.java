@@ -16,25 +16,25 @@ import java.util.List;
 @RestController
 @RequestMapping("/tasks")
 class TaskController {
-    private final TaskService taskService;
+    private final TaskFacade taskFacade;
 
-    TaskController(TaskService taskService) {
-        this.taskService = taskService;
+    TaskController(TaskFacade taskFacade) {
+        this.taskFacade = taskFacade;
     }
 
     @GetMapping
     List<TaskDto> list() {
-        return taskService.list();
+        return taskFacade.list();
     }
 
     @GetMapping(params = "changes")
     List<TaskWithChangesDto> listWithChanges() {
-        return taskService.listWithChanges();
+        return taskFacade.listWithChanges();
     }
 
     @GetMapping("/{id}")
     ResponseEntity<TaskDto> get(@PathVariable int id) {
-        return taskService.get(id)
+        return taskFacade.get(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -44,20 +44,23 @@ class TaskController {
         if (id != toUpdate.getId() && toUpdate.getId() != 0) {
             throw new IllegalStateException("Id in URL is different than in body: " + id + " and " + toUpdate.getId());
         }
-        toUpdate.setId(id);
-        taskService.save(toUpdate);
+        taskFacade.save(
+                toUpdate.toBuilder()
+                        .withId(id)
+                        .build()
+        );
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping
     ResponseEntity<TaskDto> create(@RequestBody TaskDto toCreate) {
-        TaskDto result = taskService.save(toCreate);
+        TaskDto result = taskFacade.save(toCreate);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
     @DeleteMapping("/{id}")
     ResponseEntity<TaskDto> delete(@PathVariable int id) {
-        taskService.delete(id);
+        taskFacade.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

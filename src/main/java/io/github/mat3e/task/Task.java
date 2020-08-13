@@ -1,6 +1,6 @@
 package io.github.mat3e.task;
 
-import io.github.mat3e.project.Project;
+import io.github.mat3e.project.query.SimpleProjectQueryDto;
 import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.Entity;
@@ -16,7 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "tasks")
-public class Task {
+class Task {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
@@ -28,16 +28,26 @@ public class Task {
     private String additionalComment;
     @ManyToOne
     @JoinColumn(name = "source_id")
-    private Project project;
+    private SimpleProjectQueryDto project;
 
     @PersistenceConstructor
     public Task() {
     }
 
-    public Task(@NotNull String description, ZonedDateTime deadline, Project project) {
+    Task(@NotNull String description, ZonedDateTime deadline, SimpleProjectQueryDto project) {
         this.description = description;
         this.deadline = deadline;
         this.project = project;
+    }
+
+    TaskDto toDto() {
+        return TaskDto.builder()
+                .withId(id)
+                .withDescription(description)
+                .withDone(done)
+                .withDeadline(deadline)
+                .withAdditionalComment(additionalComment)
+                .build();
     }
 
     int getId() {
@@ -56,7 +66,7 @@ public class Task {
         this.description = description;
     }
 
-    public boolean isDone() {
+    boolean isDone() {
         return done;
     }
 
@@ -88,11 +98,11 @@ public class Task {
         this.additionalComment = additionalComment;
     }
 
-    Project getProject() {
+    SimpleProjectQueryDto getProject() {
         return project;
     }
 
-    void setProject(Project project) {
+    void setProject(SimpleProjectQueryDto project) {
         this.project = project;
     }
 }
