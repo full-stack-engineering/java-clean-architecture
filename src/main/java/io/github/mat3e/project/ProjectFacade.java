@@ -1,14 +1,15 @@
 package io.github.mat3e.project;
 
-import io.github.mat3e.project.query.SimpleProjectQueryDto;
-import io.github.mat3e.task.TaskDto;
+import io.github.mat3e.project.dto.ProjectDto;
+import io.github.mat3e.project.dto.SimpleProjectQueryEntity;
 import io.github.mat3e.task.TaskFacade;
+import io.github.mat3e.task.TaskQueryRepository;
+import io.github.mat3e.task.dto.TaskDto;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
@@ -16,29 +17,29 @@ import static java.util.stream.Collectors.toSet;
 
 @Service
 public class ProjectFacade {
+    private final ProjectFactory projectFactory;
     private final ProjectRepository projectRepository;
     private final ProjectStepRepository projectStepRepository;
     private final TaskFacade taskFacade;
+    private final TaskQueryRepository taskQueryRepository;
 
-    ProjectFacade(ProjectRepository projectRepository, ProjectStepRepository projectStepRepository, TaskFacade taskFacade) {
+    ProjectFacade(final ProjectFactory projectFactory, final ProjectRepository projectRepository, final ProjectStepRepository projectStepRepository, final TaskFacade taskFacade, final TaskQueryRepository taskQueryRepository) {
+        this.projectFactory = projectFactory;
         this.projectRepository = projectRepository;
         this.projectStepRepository = projectStepRepository;
         this.taskFacade = taskFacade;
+        this.taskQueryRepository = taskQueryRepository;
     }
 
-    Project save(Project toSave) {
+    ProjectDto save(ProjectDto dtoToSave) {
+        var toSave = projectFactory.from(dtoToSave);
         if (toSave.getId() != 0) {
-            return saveWithId(toSave);
+            return saveWithId(toSave).toDto();
         }
-        if (toSave.getSteps().stream().anyMatch(step -> step.getId() != 0)) {
+        if (dtoToSave.getSteps().stream().anyMatch(step -> step.getId() != 0)) {
             throw new IllegalStateException("Cannot add project with existing steps");
         }
-        toSave.getSteps().forEach(step -> {
-            if (step.getProject() == null) {
-                step.setProject(toSave);
-            }
-        });
-        return projectRepository.save(toSave);
+        return projectRepository.save(toSave).toDto();
     }
 
     private Project saveWithId(Project toSave) {
@@ -79,16 +80,8 @@ public class ProjectFacade {
         });
     }
 
-    List<Project> list() {
-        return projectRepository.findAll();
-    }
-
-    Optional<Project> get(int id) {
-        return projectRepository.findById(id);
-    }
-
     List<TaskDto> createTasks(int projectId, ZonedDateTime projectDeadline) {
-        if (taskFacade.areUndoneTasksWithProjectId(projectId)) {
+        if (taskQueryRepository.existsByDoneIsFalseAndProject_Id(projectId)) {
             throw new IllegalStateException("There are still some undone tasks from a previous project instance!");
         }
         return projectRepository.findById(projectId).map(project -> {
@@ -98,7 +91,7 @@ public class ProjectFacade {
                             .withDeadline(projectDeadline.plusDays(step.getDaysToProjectDeadline()))
                             .build()
                     ).collect(toList());
-            return taskFacade.saveAll(tasks, new SimpleProjectQueryDto(projectId, project.getName()));
+            return taskFacade.saveAll(tasks, new SimpleProjectQueryEntity(projectId, project.getName()));
         }).orElseThrow(() -> new IllegalArgumentException("No project found with id: " + projectId));
     }
 }

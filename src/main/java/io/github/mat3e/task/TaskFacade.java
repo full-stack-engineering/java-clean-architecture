@@ -1,11 +1,11 @@
 package io.github.mat3e.task;
 
-import io.github.mat3e.project.query.SimpleProjectQueryDto;
+import io.github.mat3e.project.dto.SimpleProjectQueryEntity;
+import io.github.mat3e.task.dto.TaskDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -19,17 +19,13 @@ public class TaskFacade {
         this.taskRepository = taskRepository;
     }
 
-    public List<TaskDto> saveAll(Collection<TaskDto> tasks, SimpleProjectQueryDto project) {
+    public List<TaskDto> saveAll(Collection<TaskDto> tasks, SimpleProjectQueryEntity project) {
         return taskRepository.saveAll(
                 tasks.stream()
                         .map(dto -> taskFactory.from(dto, project))
                         .collect(toList())
         ).stream().map(Task::toDto)
                 .collect(toList());
-    }
-
-    public boolean areUndoneTasksWithProjectId(int projectId) {
-        return !taskRepository.findAllByDoneIsFalseAndProject_Id(projectId).isEmpty();
     }
 
     TaskDto save(TaskDto toSave) {
@@ -49,22 +45,6 @@ public class TaskFacade {
                     return result;
                 })
         ).toDto();
-    }
-
-    List<TaskDto> list() {
-        return taskRepository.findAll().stream()
-                .map(Task::toDto)
-                .collect(toList());
-    }
-
-    List<TaskWithChangesDto> listWithChanges() {
-        return taskRepository.findAll().stream()
-                .map(TaskWithChangesDto::new)
-                .collect(toList());
-    }
-
-    Optional<TaskDto> get(int id) {
-        return taskRepository.findById(id).map(Task::toDto);
     }
 
     void delete(int id) {

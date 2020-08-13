@@ -1,12 +1,9 @@
-package io.github.mat3e.task;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+package io.github.mat3e.task.dto;
 
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
-@JsonDeserialize(builder = TaskDto.Builder.class)
 public class TaskDto {
     static public Builder builder() {
         return new Builder();
@@ -19,21 +16,12 @@ public class TaskDto {
     private final ZonedDateTime deadline;
     private final String additionalComment;
 
-    private TaskDto(final Builder builder) {
-        id = builder.id;
-        description = builder.description;
-        done = builder.done;
-        deadline = builder.deadline;
-        additionalComment = builder.additionalComment;
-    }
-
-    public Builder toBuilder() {
-        return new Builder()
-                .withId(id)
-                .withDescription(description)
-                .withDone(done)
-                .withDeadline(deadline)
-                .withAdditionalComment(additionalComment);
+    public TaskDto(final int id, final @NotNull String description, final boolean done, final ZonedDateTime deadline, final String additionalComment) {
+        this.id = id;
+        this.description = description;
+        this.done = done;
+        this.deadline = deadline;
+        this.additionalComment = additionalComment;
     }
 
     public int getId() {
@@ -56,9 +44,13 @@ public class TaskDto {
         return additionalComment;
     }
 
-    @JsonPOJOBuilder
+    public TaskDto withId(final int id) {
+        return new TaskDto(id, description, done, deadline, additionalComment);
+    }
+
     public static class Builder {
         private int id;
+        @NotNull
         private String description;
         private boolean done;
         private ZonedDateTime deadline;
@@ -69,7 +61,7 @@ public class TaskDto {
             return this;
         }
 
-        public Builder withDescription(String description) {
+        public Builder withDescription(@NotNull String description) {
             this.description = description;
             return this;
         }
@@ -90,7 +82,24 @@ public class TaskDto {
         }
 
         public TaskDto build() {
-            return new TaskDto(this);
+            return new TaskDto(id, description, done, deadline, additionalComment);
         }
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TaskDto)) return false;
+        final TaskDto that = (TaskDto) o;
+        return id == that.id &&
+                done == that.done &&
+                description.equals(that.description) &&
+                Objects.equals(deadline, that.deadline) &&
+                Objects.equals(additionalComment, that.additionalComment);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, description, done, deadline, additionalComment);
     }
 }

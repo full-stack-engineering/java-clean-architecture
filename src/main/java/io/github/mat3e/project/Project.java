@@ -1,5 +1,6 @@
 package io.github.mat3e.project;
 
+import io.github.mat3e.project.dto.ProjectDto;
 import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.CascadeType;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.util.stream.Collectors.toList;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -62,5 +64,9 @@ class Project {
         }
         steps.remove(step);
         step.setProject(null);
+    }
+
+    ProjectDto toDto() {
+        return ProjectDto.create(id, name, steps.stream().map(ProjectStep::toDto).collect(toList()));
     }
 }

@@ -1,5 +1,7 @@
 package io.github.mat3e.task;
 
+import io.github.mat3e.task.dto.TaskDto;
+import io.github.mat3e.task.dto.TaskWithChangesQueryDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,24 +19,26 @@ import java.util.List;
 @RequestMapping("/tasks")
 class TaskController {
     private final TaskFacade taskFacade;
+    private final TaskQueryRepository taskQueryRepository;
 
-    TaskController(TaskFacade taskFacade) {
+    TaskController(final TaskFacade taskFacade, final TaskQueryRepository taskQueryRepository) {
         this.taskFacade = taskFacade;
+        this.taskQueryRepository = taskQueryRepository;
     }
 
     @GetMapping
     List<TaskDto> list() {
-        return taskFacade.list();
+        return taskQueryRepository.findAllBy();
     }
 
     @GetMapping(params = "changes")
-    List<TaskWithChangesDto> listWithChanges() {
-        return taskFacade.listWithChanges();
+    List<TaskWithChangesQueryDto> listWithChanges() {
+        return taskQueryRepository.findAllWithChangesBy();
     }
 
     @GetMapping("/{id}")
     ResponseEntity<TaskDto> get(@PathVariable int id) {
-        return taskFacade.get(id)
+        return taskQueryRepository.findDtoById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -44,11 +48,7 @@ class TaskController {
         if (id != toUpdate.getId() && toUpdate.getId() != 0) {
             throw new IllegalStateException("Id in URL is different than in body: " + id + " and " + toUpdate.getId());
         }
-        taskFacade.save(
-                toUpdate.toBuilder()
-                        .withId(id)
-                        .build()
-        );
+        taskFacade.save(toUpdate.withId(id));
         return ResponseEntity.noContent().build();
     }
 

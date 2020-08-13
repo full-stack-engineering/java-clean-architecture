@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "b10b153c-ed3a-46f1-973c-f25db76642d4",
+    "_postman_id": "4164838d-429b-4b8b-88f8-1ddd62656b7e",
     "name": "Clean Architecture",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
@@ -11,7 +11,7 @@
         {
           "listen": "test",
           "script": {
-            "id": "91f16029-124c-4b24-94c0-203cf9348ce7",
+            "id": "15d048c9-d8e6-4374-b3ec-df0f0dc44cf0",
             "exec": [
               "pm.globals.set(\"jwt\", pm.response.json().token);"
             ],
@@ -121,7 +121,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"name\": \"Example project\",\n    \"steps\": [\n        {\n            \"id\": 1,\n            \"description\": \"First\",\n            \"daysToProjectDeadline\": -4\n        },\n        {\n            \"id\": 2,\n            \"description\": \"Second\",\n            \"daysToProjectDeadline\": -2\n        },\n        {\n            \"id\": 3,\n            \"description\": \"Third\",\n            \"daysToProjectDeadline\": 0\n        }\n    ]\n}",
+          "raw": "{\n    \"id\": 1,\n    \"name\": \"Example project\",\n    \"steps\": [\n        {\n            \"id\": 1,\n            \"description\": \"First\",\n            \"daysToProjectDeadline\": -4\n        },\n        {\n            \"id\": 2,\n            \"description\": \"Second\",\n            \"daysToProjectDeadline\": -2\n        },\n        {\n            \"id\": 3,\n            \"description\": \"Third\",\n            \"daysToProjectDeadline\": 0\n        }\n    ]\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -160,7 +160,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"name\": \"Example project\",\n    \"steps\": [\n        {\n            \"id\": 1,\n            \"description\": \"First\",\n            \"daysToProjectDeadline\": -4\n        },\n        {\n            \"id\": 2,\n            \"description\": \"Second\",\n            \"daysToProjectDeadline\": -2\n        }\n    ]\n}",
+          "raw": "{\n    \"id\": 1,\n    \"name\": \"Example project\",\n    \"steps\": [\n        {\n            \"id\": 1,\n            \"description\": \"First\",\n            \"daysToProjectDeadline\": -4\n        },\n        {\n            \"id\": 2,\n            \"description\": \"Second\",\n            \"daysToProjectDeadline\": -2\n        }\n    ]\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -199,7 +199,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"name\": \"Example project\",\n    \"steps\": [\n        {\n            \"id\": 1,\n            \"description\": \"First\",\n            \"daysToProjectDeadline\": -4\n        },\n        {\n            \"id\": 2,\n            \"description\": \"Second\",\n            \"daysToProjectDeadline\": -2\n        },\n        {\n        \t\"description\": \"Another\",\n        \t\"daysToProjectDeadline\": 0\n        }\n    ]\n}",
+          "raw": "{\n    \"id\": 1,\n    \"name\": \"Example project\",\n    \"steps\": [\n        {\n            \"id\": 1,\n            \"description\": \"First\",\n            \"daysToProjectDeadline\": -4\n        },\n        {\n            \"id\": 2,\n            \"description\": \"Second\",\n            \"daysToProjectDeadline\": -2\n        },\n        {\n        \t\"description\": \"Another\",\n        \t\"daysToProjectDeadline\": 0\n        }\n    ]\n}",
           "options": {
             "raw": {
               "language": "json"

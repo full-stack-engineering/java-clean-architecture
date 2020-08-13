@@ -7,14 +7,16 @@ import org.springframework.stereotype.Component;
 @Component("projectWarmup")
 class Warmup implements ApplicationListener<ContextRefreshedEvent> {
     private final ProjectRepository projectRepository;
+    private final ProjectQueryRepository projectQueryRepository;
 
-    Warmup(final ProjectRepository projectRepository) {
+    Warmup(final ProjectRepository projectRepository, final ProjectQueryRepository projectQueryRepository) {
         this.projectRepository = projectRepository;
+        this.projectQueryRepository = projectQueryRepository;
     }
 
     @Override
     public void onApplicationEvent(final ContextRefreshedEvent event) {
-        if (projectRepository.count() == 0) {
+        if (projectQueryRepository.count() == 0) {
             var project = new Project();
             project.setName("Example project");
             project.addStep(new ProjectStep("First", -3, project));

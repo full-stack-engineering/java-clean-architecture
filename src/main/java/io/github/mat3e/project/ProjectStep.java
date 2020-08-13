@@ -1,6 +1,6 @@
 package io.github.mat3e.project;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.github.mat3e.project.dto.ProjectStepDto;
 import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.Entity;
@@ -22,7 +22,6 @@ class ProjectStep {
     @NotNull
     private String description;
     private int daysToProjectDeadline;
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
@@ -67,5 +66,9 @@ class ProjectStep {
 
     void setProject(Project project) {
         this.project = project;
+    }
+
+    ProjectStepDto toDto() {
+        return ProjectStepDto.create(id, description, daysToProjectDeadline);
     }
 }

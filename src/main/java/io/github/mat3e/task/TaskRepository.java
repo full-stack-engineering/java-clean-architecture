@@ -6,13 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 interface TaskRepository extends Repository<Task, Integer> {
-    int count();
-
     Optional<Task> findById(Integer id);
-
-    List<Task> findAllByDoneIsFalseAndProject_Id(int id);
-
-    List<Task> findAll();
 
     <S extends Task> S save(S entity);
 

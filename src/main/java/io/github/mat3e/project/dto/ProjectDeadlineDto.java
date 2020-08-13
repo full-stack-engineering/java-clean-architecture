@@ -1,11 +1,11 @@
-package io.github.mat3e.project;
+package io.github.mat3e.project.dto;
 
 import java.time.ZonedDateTime;
 
-class ProjectDeadlineDto {
+public class ProjectDeadlineDto {
     private ZonedDateTime deadline;
 
-    ZonedDateTime getDeadline() {
+    public ZonedDateTime getDeadline() {
         return deadline;
     }
 
