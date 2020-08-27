@@ -24,12 +24,12 @@ public class TaskFacade {
                 tasks.stream()
                         .map(dto -> taskFactory.from(dto, project))
                         .collect(toList())
-        ).stream().map(Task::toDto)
+        ).stream().map(this::toDto)
                 .collect(toList());
     }
 
     TaskDto save(TaskDto toSave) {
-        return taskRepository.save(
+        return toDto(taskRepository.save(
                 taskRepository.findById(toSave.getId()).map(existingTask -> {
                     if (existingTask.isDone() != toSave.isDone()) {
                         existingTask.setChangesCount(existingTask.getChangesCount() + 1);
@@ -44,10 +44,20 @@ public class TaskFacade {
                     result.setAdditionalComment(toSave.getAdditionalComment());
                     return result;
                 })
-        ).toDto();
+        ));
     }
 
     void delete(int id) {
         taskRepository.deleteById(id);
+    }
+
+    private TaskDto toDto(Task task) {
+        return TaskDto.builder()
+                .withId(task.getId())
+                .withDescription(task.getDescription())
+                .withDone(task.isDone())
+                .withDeadline(task.getDeadline())
+                .withAdditionalComment(task.getAdditionalComment())
+                .build();
     }
 }

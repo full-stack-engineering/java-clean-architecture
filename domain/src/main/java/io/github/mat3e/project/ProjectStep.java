@@ -1,6 +1,5 @@
 package io.github.mat3e.project;
 
-import io.github.mat3e.project.dto.ProjectStepDto;
 import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.Entity;
@@ -66,9 +65,5 @@ class ProjectStep {
 
     void setProject(Project project) {
         this.project = project;
-    }
-
-    ProjectStepDto toDto() {
-        return ProjectStepDto.create(id, description, daysToProjectDeadline);
     }
 }

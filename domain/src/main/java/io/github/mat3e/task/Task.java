@@ -1,7 +1,6 @@
 package io.github.mat3e.task;
 
 import io.github.mat3e.project.dto.SimpleProjectQueryEntity;
-import io.github.mat3e.task.dto.TaskDto;
 import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.Entity;
@@ -39,16 +38,6 @@ class Task {
         this.description = description;
         this.deadline = deadline;
         this.project = project;
-    }
-
-    TaskDto toDto() {
-        return TaskDto.builder()
-                .withId(id)
-                .withDescription(description)
-                .withDone(done)
-                .withDeadline(deadline)
-                .withAdditionalComment(additionalComment)
-                .build();
     }
 
     int getId() {
