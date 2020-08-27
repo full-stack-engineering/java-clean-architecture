@@ -1,8 +1,9 @@
 package io.github.mat3e.project;
 
-import io.github.mat3e.project.dto.SimpleProject;
-import io.github.mat3e.project.dto.SimpleProjectSnapshot;
+import io.github.mat3e.task.vo.TaskCreator;
+import io.github.mat3e.task.vo.TaskSourceId;
 
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,8 +28,29 @@ class Project {
         return new ProjectSnapshot(id, name, steps.stream().map(Step::getSnapshot).collect(toSet()));
     }
 
-    SimpleProject toSimpleProject() {
-        return SimpleProject.restore(new SimpleProjectSnapshot(id, name));
+    Set<TaskCreator> convertToTasks(final ZonedDateTime projectDeadline) {
+        if (steps.stream().anyMatch(step -> step.hasCorrespondingTask && !step.correspondingTaskDone)) {
+            throw new IllegalStateException("There are still some undone tasks from a previous project instance!");
+        }
+        Set<TaskCreator> result = steps.stream()
+                .map(step -> new TaskCreator(
+                                new TaskSourceId(String.valueOf(step.id)),
+                                step.description,
+                                projectDeadline.plusDays(step.daysToProjectDeadline)
+                        )
+                ).collect(toSet());
+        // FIXME: we are not sure here if task was REALLY created; there should be a dedicated event for that
+        steps.forEach(step -> {
+            step.hasCorrespondingTask = true;
+            step.correspondingTaskDone = false;
+        });
+        return result;
+    }
+
+    void updateStep(final int stepId, final boolean taskDone) {
+        steps.stream()
+                .filter(step -> step.id == stepId)
+                .forEach(step -> step.correspondingTaskDone = taskDone);
     }
 
     Set<Step> modifySteps(final Set<ProjectStepSnapshot> stepSnapshots) {
@@ -66,21 +88,31 @@ class Project {
 
     static class Step {
         static Step restore(ProjectStepSnapshot snapshot) {
-            return new Step(snapshot.getId(), snapshot.getDescription(), snapshot.getDaysToProjectDeadline());
+            return new Step(
+                    snapshot.getId(),
+                    snapshot.getDescription(),
+                    snapshot.getDaysToProjectDeadline(),
+                    snapshot.hasCorrespondingTask(),
+                    snapshot.isCorrespondingTaskDone()
+            );
         }
 
         private int id;
         private String description;
         private int daysToProjectDeadline;
+        private boolean hasCorrespondingTask;
+        private boolean correspondingTaskDone;
 
-        private Step(final int id, final String description, final int daysToProjectDeadline) {
+        private Step(final int id, final String description, final int daysToProjectDeadline, final boolean hasCorrespondingTask, final boolean correspondingTaskDone) {
             this.id = id;
             this.description = description;
             this.daysToProjectDeadline = daysToProjectDeadline;
+            this.hasCorrespondingTask = hasCorrespondingTask;
+            this.correspondingTaskDone = correspondingTaskDone;
         }
 
         ProjectStepSnapshot getSnapshot() {
-            return new ProjectStepSnapshot(id, description, daysToProjectDeadline);
+            return new ProjectStepSnapshot(id, description, daysToProjectDeadline, hasCorrespondingTask, correspondingTaskDone);
         }
     }
 }
