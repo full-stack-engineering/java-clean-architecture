@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,7 +30,7 @@ class ProjectController {
 
     @GetMapping
     List<ProjectDto> list() {
-        return projectQueryRepository.findBy();
+        return new ArrayList<>(projectQueryRepository.findBy(ProjectDto.class));
     }
 
     @GetMapping("/{id}")

@@ -1,9 +1,7 @@
 package io.github.mat3e.project;
 
 import io.github.mat3e.project.dto.ProjectDto;
-import org.springframework.stereotype.Service;
 
-@Service
 class ProjectFactory {
     Project from(ProjectDto source) {
         var result = new Project();

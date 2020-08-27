@@ -1,21 +1,15 @@
 package io.github.mat3e.project;
 
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.stereotype.Component;
-
-@Component("projectWarmup")
-class Warmup implements ApplicationListener<ContextRefreshedEvent> {
+class ProjectInitializer {
     private final ProjectRepository projectRepository;
     private final ProjectQueryRepository projectQueryRepository;
 
-    Warmup(final ProjectRepository projectRepository, final ProjectQueryRepository projectQueryRepository) {
+    ProjectInitializer(final ProjectRepository projectRepository, final ProjectQueryRepository projectQueryRepository) {
         this.projectRepository = projectRepository;
         this.projectQueryRepository = projectQueryRepository;
     }
 
-    @Override
-    public void onApplicationEvent(final ContextRefreshedEvent event) {
+    void init() {
         if (projectQueryRepository.count() == 0) {
             var project = new Project();
             project.setName("Example project");

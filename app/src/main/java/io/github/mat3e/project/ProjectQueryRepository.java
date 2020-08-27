@@ -1,15 +1,14 @@
 package io.github.mat3e.project;
 
 import io.github.mat3e.project.dto.ProjectDto;
-import org.springframework.data.repository.Repository;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
-public interface ProjectQueryRepository extends Repository<Project, Integer> {
+public interface ProjectQueryRepository {
     Optional<ProjectDto> findDtoById(Integer id);
 
-    List<ProjectDto> findBy();
+    <T> Set<T> findBy(Class<T> type);
 
     long count();
 }

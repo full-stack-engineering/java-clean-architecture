@@ -1,11 +1,9 @@
 package io.github.mat3e.task;
 
-import org.springframework.data.repository.Repository;
-
 import java.util.List;
 import java.util.Optional;
 
-interface TaskRepository extends Repository<Task, Integer> {
+interface TaskRepository {
     Optional<Task> findById(Integer id);
 
     <S extends Task> S save(S entity);
