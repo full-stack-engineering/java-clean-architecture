@@ -10,14 +10,12 @@ class ProjectConfiguration {
     @Bean
     ProjectFacade projectFacade(
             ProjectRepository projectRepository,
-            ProjectStepRepository projectStepRepository,
             TaskFacade taskFacade,
             TaskQueryRepository taskQueryRepository
     ) {
         return new ProjectFacade(
                 new ProjectFactory(),
                 projectRepository,
-                projectStepRepository,
                 taskFacade,
                 taskQueryRepository
         );

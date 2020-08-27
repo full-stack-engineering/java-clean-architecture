@@ -4,7 +4,6 @@ import io.github.mat3e.project.dto.ProjectDeadlineDto;
 import io.github.mat3e.project.dto.ProjectDto;
 import io.github.mat3e.task.dto.TaskDto;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +40,6 @@ class ProjectController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<Project> update(@PathVariable int id, @RequestBody ProjectDto toUpdate) {
         if (id != toUpdate.getId()) {

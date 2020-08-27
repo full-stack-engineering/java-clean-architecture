@@ -5,6 +5,18 @@ import io.github.mat3e.project.dto.SimpleProject;
 import java.time.ZonedDateTime;
 
 class Task {
+    static Task restore(TaskSnapshot snapshot) {
+        return new Task(
+                snapshot.getId(),
+                snapshot.getDescription(),
+                snapshot.getDone(),
+                snapshot.getDeadline(),
+                snapshot.getChangesCount(),
+                snapshot.getAdditionalComment(),
+                snapshot.getProject() != null ? SimpleProject.restore(snapshot.getProject()) : null
+        );
+    }
+
     private int id;
     private String description;
     private boolean done;
@@ -13,61 +25,45 @@ class Task {
     private String additionalComment;
     private final SimpleProject project;
 
-    Task(final String description, final ZonedDateTime deadline, final SimpleProject project) {
+    private Task(
+            final int id,
+            final String description,
+            final boolean done,
+            final ZonedDateTime deadline,
+            final int changesCount,
+            final String additionalComment,
+            final SimpleProject project
+    ) {
+        this.id = id;
         this.description = description;
+        this.done = done;
         this.deadline = deadline;
+        this.changesCount = changesCount;
+        this.additionalComment = additionalComment;
         this.project = project;
     }
 
-    int getId() {
-        return id;
+    TaskSnapshot getSnapshot() {
+        return new TaskSnapshot(
+                id,
+                description,
+                done,
+                deadline,
+                changesCount,
+                additionalComment,
+                project != null ? project.getSnapshot() : null
+        );
     }
 
-    void setId(int id) {
-        this.id = id;
+    void toggle() {
+        done = !done;
+        ++changesCount;
     }
 
-    String getDescription() {
-        return description;
-    }
-
-    void setDescription(String description) {
+    void updateInfo(String description, ZonedDateTime deadline, String additionalComment) {
+        // rules, e.g. cannot be updated when done
         this.description = description;
-    }
-
-    boolean isDone() {
-        return done;
-    }
-
-    void setDone(boolean done) {
-        this.done = done;
-    }
-
-    ZonedDateTime getDeadline() {
-        return deadline;
-    }
-
-    void setDeadline(ZonedDateTime deadline) {
         this.deadline = deadline;
-    }
-
-    int getChangesCount() {
-        return changesCount;
-    }
-
-    void setChangesCount(int changesCount) {
-        this.changesCount = changesCount;
-    }
-
-    String getAdditionalComment() {
-        return additionalComment;
-    }
-
-    void setAdditionalComment(String additionalComment) {
         this.additionalComment = additionalComment;
-    }
-
-    SimpleProject getProject() {
-        return project;
     }
 }
