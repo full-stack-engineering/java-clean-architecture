@@ -1,6 +1,6 @@
 package io.github.mat3e.task;
 
-import io.github.mat3e.project.dto.SimpleProjectQueryEntity;
+import io.github.mat3e.project.dto.SimpleProject;
 import io.github.mat3e.task.dto.TaskDto;
 
 import java.util.Collection;
@@ -17,10 +17,9 @@ public class TaskFacade {
         this.taskRepository = taskRepository;
     }
 
-    public List<TaskDto> saveAll(Collection<TaskDto> tasks, SimpleProjectQueryEntity project) {
+    public List<TaskDto> saveAll(Collection<TaskDto> tasks, SimpleProject project) {
         return taskRepository.saveAll(
-                tasks.stream()
-                        .map(dto -> taskFactory.from(dto, project))
+                tasks.stream().map(dto -> taskFactory.from(dto, project))
                         .collect(toList())
         ).stream().map(this::toDto)
                 .collect(toList());

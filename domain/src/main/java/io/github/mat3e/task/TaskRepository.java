@@ -6,9 +6,9 @@ import java.util.Optional;
 interface TaskRepository {
     Optional<Task> findById(Integer id);
 
-    <S extends Task> S save(S entity);
+    Task save(Task entity);
 
-    <S extends Task> List<S> saveAll(Iterable<S> entities);
+    List<Task> saveAll(Iterable<Task> entities);
 
     void deleteById(Integer id);
 }

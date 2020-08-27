@@ -4,6 +4,7 @@ import io.github.mat3e.project.dto.ProjectDeadlineDto;
 import io.github.mat3e.project.dto.ProjectDto;
 import io.github.mat3e.task.dto.TaskDto;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,8 +41,9 @@ class ProjectController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @Transactional
     @PutMapping("/{id}")
-    ResponseEntity<Project> update(@PathVariable int id, @RequestBody ProjectDto toUpdate) {
+    public ResponseEntity<Project> update(@PathVariable int id, @RequestBody ProjectDto toUpdate) {
         if (id != toUpdate.getId()) {
             throw new IllegalStateException("Id in URL is different than in body: " + id + " and " + (toUpdate.getId() == 0 ? "empty" : toUpdate.getId()));
         }

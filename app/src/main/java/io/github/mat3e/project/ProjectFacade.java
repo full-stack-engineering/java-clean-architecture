@@ -2,7 +2,7 @@ package io.github.mat3e.project;
 
 import io.github.mat3e.project.dto.ProjectDto;
 import io.github.mat3e.project.dto.ProjectStepDto;
-import io.github.mat3e.project.dto.SimpleProjectQueryEntity;
+import io.github.mat3e.project.dto.SimpleProject;
 import io.github.mat3e.task.TaskFacade;
 import io.github.mat3e.task.TaskQueryRepository;
 import io.github.mat3e.task.dto.TaskDto;
@@ -30,7 +30,7 @@ public class ProjectFacade {
         this.taskQueryRepository = taskQueryRepository;
     }
 
-    ProjectDto save(ProjectDto dtoToSave) {
+    public ProjectDto save(ProjectDto dtoToSave) {
         var toSave = projectFactory.from(dtoToSave);
         if (toSave.getId() != 0) {
             return toDto(saveWithId(toSave));
@@ -90,7 +90,7 @@ public class ProjectFacade {
                             .withDeadline(projectDeadline.plusDays(step.getDaysToProjectDeadline()))
                             .build()
                     ).collect(toList());
-            return taskFacade.saveAll(tasks, new SimpleProjectQueryEntity(projectId, project.getName()));
+            return taskFacade.saveAll(tasks, new SimpleProject(projectId, project.getName()));
         }).orElseThrow(() -> new IllegalArgumentException("No project found with id: " + projectId));
     }
 

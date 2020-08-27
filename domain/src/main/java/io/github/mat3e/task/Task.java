@@ -1,40 +1,19 @@
 package io.github.mat3e.task;
 
-import io.github.mat3e.project.dto.SimpleProjectQueryEntity;
-import org.springframework.data.annotation.PersistenceConstructor;
+import io.github.mat3e.project.dto.SimpleProject;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
-@Entity
-@Table(name = "tasks")
 class Task {
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
     private int id;
-    @NotNull
     private String description;
     private boolean done;
     private ZonedDateTime deadline;
     private int changesCount;
     private String additionalComment;
-    @ManyToOne
-    @JoinColumn(name = "source_id")
-    private SimpleProjectQueryEntity project;
+    private final SimpleProject project;
 
-    @PersistenceConstructor
-    public Task() {
-    }
-
-    Task(final @NotNull String description, final ZonedDateTime deadline, final SimpleProjectQueryEntity project) {
+    Task(final String description, final ZonedDateTime deadline, final SimpleProject project) {
         this.description = description;
         this.deadline = deadline;
         this.project = project;
@@ -88,11 +67,7 @@ class Task {
         this.additionalComment = additionalComment;
     }
 
-    SimpleProjectQueryEntity getProject() {
+    SimpleProject getProject() {
         return project;
-    }
-
-    void setProject(SimpleProjectQueryEntity project) {
-        this.project = project;
     }
 }
